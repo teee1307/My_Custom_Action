@@ -1,18 +1,21 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'PR Comment'
+description: 'Adds PR changes as comment'
+author: 'Tanaya Sharma '
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  owner:
+    description: "The owner of the repo"
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+  repo:
+    description: "The repository name"
+    required: true
+  pr_number:
+    description: "The number of the Pull request"
+    required: true
+  token:
+    description: "The token to use to access the gihub API"
+    required: true
 
 runs:
   using: node20

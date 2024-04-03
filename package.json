@@ -1,16 +1,16 @@
 {
-  "name": "javascript-action",
-  "description": "GitHub Actions JavaScript Template",
+  "name": "my-custom-action",
+  "description": "Adds Pr changes as a comment",
   "version": "0.0.0",
-  "author": "",
+  "author": "Tanaya Sharma",
   "private": true,
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/teee1307/My_Custom_Actionnode #readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/teee1307/My_Custom_Action.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/teee1307/My_Custom_Action/issues"
   },
   "keywords": [
     "GitHub",
