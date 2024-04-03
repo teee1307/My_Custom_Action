@@ -5,16 +5,16 @@ author: 'Tanaya Sharma '
 # Define your inputs here.
 inputs:
   owner:
-    description: "The owner of the repo"
+    description: 'The owner of the repo'
     required: true
   repo:
-    description: "The repository name"
+    description: 'The repository name'
     required: true
   pr_number:
-    description: "The number of the Pull request"
+    description: 'The number of the Pull request'
     required: true
   token:
-    description: "The token to use to access the gihub API"
+    description: 'The token to use to access the gihub API'
     required: true
 
 runs:
