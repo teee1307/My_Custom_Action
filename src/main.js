@@ -21,7 +21,7 @@ async function run() {
     })
 
     let diffData = {
-      addition: 0,
+      additions: 0,
       deletions: 0,
       changes: 0
     }
@@ -29,45 +29,48 @@ async function run() {
       acc.additions += file.additions
       acc.deletions += file.deletions
       acc.changes += file.changes
+      return acc; // Add return statement here
     }, diffData)
-    await octokit.rest.isssues.createcomment({
+    await octokit.rest.issues.createComment({ // Fix typo here
       owner,
       repo,
       issue_number: pr_number,
       body: `
-      Pull request #${pr_number} has been updtaed with : \n
-      -${diffData.changes} changes \n
-      -${diffData.additions} additions \n
-      -${diffData.deleteions} deletions \n
+      Pull request #${pr_number} has been updated with: \n
+      - ${diffData.changes} changes \n
+      - ${diffData.additions} additions \n
+      - ${diffData.deletions} deletions \n
       `
     })
-    let label = ''
+
+    let label = '';
     for (const file of changedFiles) {
       const fileExtension = file.filename.split('.').pop()
 
       switch (fileExtension) {
         case 'md':
-          label = 'markdown'
-          break
+          label = 'markdown';
+          break;
         case 'js':
-          label = 'javascript'
-          break
+          label = 'javascript';
+          break;
         case 'yml':
-          label = 'yaml'
-          break
+          label = 'yaml';
+          break;
         case 'ts':
-          label = 'typescript'
-          break
+          label = 'typescript';
+          break;
         default:
-          label = 'no Extension'
+          label = 'no Extension';
       }
+
+      await octokit.rest.issues.addLabel({
+        owner,
+        repo,
+        issue_number: pr_number,
+        labels: [label]
+      })
     }
-    await octokit.rest.issues.addLabel({
-      owner,
-      repo,
-      issue_number: pr_number,
-      labels: [label]
-    })
   } catch (error) {
     // Fail the workflow run if an error occurs
     core.setFailed(error.message)
