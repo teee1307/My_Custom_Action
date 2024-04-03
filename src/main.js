@@ -25,7 +25,7 @@ async function run() {
       deletions: 0,
       changes: 0
     }
-    diffData = changedFiles.reudce((acc, file) => {
+    diffData = changedFiles.reduce((acc, file) => {
       acc.additions += file.additions
       acc.deletions += file.deletions
       acc.changes += file.changes
