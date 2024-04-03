@@ -31,7 +31,8 @@
     "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
     "package": "npx ncc build src/index.js -o dist --source-map --license licenses.txt",
     "package:watch": "npm run package -- --watch",
-    "all": "npm run format:write&& npm run coverage && npm run package"
+    "all": "npm run format:write&& npm run coverage && npm run package",
+    "ci-test": "echo 'Running CI tests...'"
   },
   "license": "MIT",
   "eslintConfig": {
