@@ -29,9 +29,10 @@ async function run() {
       acc.additions += file.additions
       acc.deletions += file.deletions
       acc.changes += file.changes
-      return acc; // Add return statement here
+      return acc // Add return statement here
     }, diffData)
-    await octokit.rest.issues.createComment({ // Fix typo here
+    await octokit.rest.issues.createComment({
+      // Fix typo here
       owner,
       repo,
       issue_number: pr_number,
@@ -43,25 +44,25 @@ async function run() {
       `
     })
 
-    let label = '';
+    let label = ''
     for (const file of changedFiles) {
       const fileExtension = file.filename.split('.').pop()
 
       switch (fileExtension) {
         case 'md':
-          label = 'markdown';
-          break;
+          label = 'markdown'
+          break
         case 'js':
-          label = 'javascript';
-          break;
+          label = 'javascript'
+          break
         case 'yml':
-          label = 'yaml';
-          break;
+          label = 'yaml'
+          break
         case 'ts':
-          label = 'typescript';
-          break;
+          label = 'typescript'
+          break
         default:
-          label = 'no Extension';
+          label = 'no Extension'
       }
 
       await octokit.rest.issues.addLabel({
