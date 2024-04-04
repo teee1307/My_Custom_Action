@@ -56,7 +56,7 @@ async function run() {
         - ${diffData.deletions} deletions \n
         `,
         headers: {
-          'X-GitHub-Api-Version': '2022-11-28'
+          'X-GitHub-Api-Version': 'application/vnd.github+json'
         }
       }
     )
@@ -81,12 +81,12 @@ async function run() {
           label = 'no Extension'
       }
 
-      await octokit.rest.issues.addLabels({
-        owner,
-        repo,
-        issue_number: pr_number,
-        labels: [label]
-      })
+      // await octokit.rest.issues.addLabels({
+      //   owner,
+      //   repo,
+      //   issue_number: pr_number,
+      //   labels: [label]
+      // })
     }
     console.log(label)
   } catch (error) {
