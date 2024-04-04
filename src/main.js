@@ -17,14 +17,19 @@ async function run() {
     const octokit = new Octokit({
       auth: token
     })
-    const { data: changedFiles } = await octokit.request(
+    const response = await octokit.request(
       'GET /repos/{owner}/{repo}/pulls/{pull_number}/files',
       {
         owner,
         repo,
-        pull_number: pr_number
+        pull_number: pr_number,
+        headers: {
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
       }
     )
+
+    const changedFiles = response.data
 
     let diffData = {
       additions: 0,
