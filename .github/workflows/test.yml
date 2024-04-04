@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: .src/
+      - uses: ./
 
         with:
           owner: ${{ github.repository_owner }}
