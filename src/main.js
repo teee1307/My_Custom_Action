@@ -11,19 +11,25 @@ async function run() {
     const owner = core.getInput('owner', { required: true })
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
+
     const token = core.getInput('token', { required: true })
 
     const octokit = new Octokit({
       auth: token
     })
-    const { data: changedFiles } = await octokit.request(
+    const response = await octokit.request(
       'GET /repos/{owner}/{repo}/pulls/{pull_number}/files',
       {
         owner,
         repo,
-        pull_number: pr_number
+        pull_number: pr_number,
+        headers: {
+          'X-GitHub-Api-Version': '2022-11-28'
+        }
       }
     )
+
+    const changedFiles = response.data
 
     let diffData = {
       additions: 0,
@@ -34,21 +40,26 @@ async function run() {
       acc.additions += file.additions
       acc.deletions += file.deletions
       acc.changes += file.changes
-      return acc // Add return statement here
+      return acc
     }, diffData)
-    await octokit.rest.issues.createComment({
-      // Fix typo here
-      owner,
-      repo,
-      issue_number: pr_number,
-      body: `
-      Pull request #${pr_number} has been updated with: \n
-      - ${diffData.changes} changes \n
-      - ${diffData.additions} additions \n
-      - ${diffData.deletions} deletions \n
-      `
-    })
 
+    await octokit.request(
+      'POST /repos/{owner}/{repo}/issues/{issue_number}/comments',
+      {
+        owner,
+        repo,
+        issue_number: pr_number,
+        body: `
+        Pull request #${pr_number} has been updated with: \n
+        - ${diffData.changes} changes \n
+        - ${diffData.additions} additions \n
+        - ${diffData.deletions} deletions \n
+        `,
+        headers: {
+          'X-GitHub-Api-Version': 'application/vnd.github+json'
+        }
+      }
+    )
     let label = ''
     for (const file of changedFiles) {
       const fileExtension = file.filename.split('.').pop()
@@ -70,12 +81,12 @@ async function run() {
           label = 'no Extension'
       }
 
-      await octokit.rest.issues.addLabels({
-        owner,
-        repo,
-        issue_number: pr_number,
-        labels: [label]
-      })
+      // await octokit.rest.issues.addLabels({
+      //   owner,
+      //   repo,
+      //   issue_number: pr_number,
+      //   labels: [label]
+      // })
     }
     console.log(label)
   } catch (error) {
