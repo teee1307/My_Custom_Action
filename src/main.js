@@ -15,11 +15,14 @@ async function run() {
     const token = core.getInput('token', { required: true })
 
     const octokit = new github.getOctokit(token)
-    const { data: changedFiles } = await octokit.rest.pulls.listFiles({
-      owner,
-      repo,
-      pull_number: pr_number
-    })
+    const { data: changedFiles } = await octokit.request(
+      'GET /repos/{owner}/{repo}/pulls/{pull_number}/files',
+      {
+        owner,
+        repo,
+        pull_number: pr_number
+      }
+    )
 
     let diffData = {
       additions: 0,
